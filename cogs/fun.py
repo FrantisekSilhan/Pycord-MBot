@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 import nekos
 import random
+import time
+import requests
 
 class FunCog(commands.Cog):
   def __init__(self, client):
@@ -118,6 +120,36 @@ class FunCog(commands.Cog):
     embed.set_author(name=f"{ctx.author}", icon_url=ctx.author.avatar, url=url)
     embed.set_image(url=url)
     await ctx.respond(embed=embed)
+
+  @commands.slash_command(name="lolitka", description="[Image] Sends lolitka pic")
+  async def lolitka(self, ctx):
+    url = "https://chino.is-a.dev/chino?timestamp=" + str(time.time())
+
+    embed = discord.Embed()
+    embed.set_author(name=f"{ctx.author}", icon_url=ctx.author.avatar, url=url)
+    embed.set_image(url=url)
+    await ctx.respond(embed=embed)
+
+  @commands.slash_command(name="joke", description="Get a random ChatGPT joke")
+  async def joke(self, ctx):
+    url = "https://www.xdd.moe/joke"
+
+    res = requests.get(url)
+
+    if res.status_code == 200:
+      joke_data = res.json()
+      joke_id = joke_data.get("id")
+      joke_text = joke_data.get("joke", "No joke available")
+      joke_url = f"https://www.xdd.moe/joke?id={joke_id}"
+
+      embed = discord.Embed()
+      embed.set_author(name=f"{ctx.author}", icon_url=ctx.author.avatar, url=url)
+      embed.add_field(name=f"Joke #{joke_id}", value=joke_text, inline=False)
+      embed.add_field(name="Joke Link", value=f"[Click Here]({joke_url})")
+      await ctx.respond(embed=embed)
+    
+    else:
+      await ctx.respond("Mthia has skill issue (API error)")
 
 def setup(client):
   client.add_cog(FunCog(client))
