@@ -149,7 +149,7 @@ class FunCog(commands.Cog):
       await ctx.respond(embed=embed)
     
     else:
-      await ctx.respond("Mthia has skill issue (API error)")
+      await ctx.respond("Mthia has a skill issue (API error)")
 
 def setup(client):
   client.add_cog(FunCog(client))
