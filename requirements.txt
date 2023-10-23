@@ -1,0 +1,5 @@
+discord
+py-cord
+python-dotenv
+unidecode
+nekos.py
